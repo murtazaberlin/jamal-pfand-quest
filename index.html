@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#1b1022" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="description" content="JAMAL – Pfand Quest: ein eigenes Retro-Jump'n'Run im Browser." />
+    <title>JAMAL – Pfand Quest</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23f0c048' d='M4 4h8v3h3v2H1V7h3z'/%3E%3Cpath fill='%23d8283c' d='M4 6h8v1H4z'/%3E%3Cpath fill='%23d4935e' d='M5 9h6v3H5z'/%3E%3Cpath fill='%232b1810' d='M5 11h6v1H5z'/%3E%3Cpath fill='%23d83a2a' d='M3 12h10v4H3z'/%3E%3C/svg%3E" />
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #07040b; overflow: hidden; }
+      body { display: flex; align-items: center; justify-content: center; touch-action: none;
+        -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; font-family: monospace; }
+      #game { position: relative; display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; height: 100dvh; }
+      #game canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+      #crt { pointer-events: none; position: fixed; inset: 0; display: none; z-index: 5;
+        background:
+          repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.22) 3px, rgba(0,0,0,0) 4px),
+          radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);
+        mix-blend-mode: multiply; }
+      body.crt #crt { display: block; }
+      body.crt #game canvas { filter: saturate(1.15) contrast(1.05); }
+      #touch { display: none; position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+      #touch .ctl { pointer-events: auto; position: absolute; touch-action: none; }
+      body:not(.touch-gameplay) #touch .gp { display: none; }
+      #touch .dpad { left: max(16px, env(safe-area-inset-left)); bottom: 18px; width: 150px; height: 150px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.10) 0 30%, rgba(255,255,255,0.05) 31% 100%);
+        border: 2px solid rgba(255,255,255,0.22); }
+      #touch .dpad::before, #touch .dpad::after { content: ''; position: absolute; background: rgba(255,255,255,0.18); border-radius: 6px; }
+      #touch .dpad::before { left: 50%; top: 14%; width: 30%; height: 72%; transform: translateX(-50%); }
+      #touch .dpad::after { top: 50%; left: 14%; height: 30%; width: 72%; transform: translateY(-50%); }
+      #touch .btn { width: 76px; height: 76px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.35);
+        color: rgba(255,255,255,0.8); font: bold 22px monospace; display: flex; align-items: center; justify-content: center; }
+      #touch .btn.down { filter: brightness(1.6); transform: scale(0.94); }
+      #touch .btn-a { right: max(18px, env(safe-area-inset-right)); bottom: 70px; background: rgba(216,58,42,0.45); }
+      #touch .btn-b { right: calc(max(18px, env(safe-area-inset-right)) + 92px); bottom: 26px; background: rgba(35,154,72,0.45); }
+      #touch .btn-p { right: max(12px, env(safe-area-inset-right)); top: 10px; width: 44px; height: 44px; font-size: 14px; background: rgba(0,0,0,0.35); }
+      #touch .btn-ok { right: max(18px, env(safe-area-inset-right)); bottom: 70px; background: rgba(240,192,72,0.45); }
+      body.touch-gameplay #touch .btn-ok { display: none; }
+      #rotate { display: none; position: fixed; inset: 0; z-index: 20; background: #1b1022; color: #f0c048;
+        align-items: center; justify-content: center; flex-direction: column; text-align: center; font: bold 18px monospace; padding: 16px; }
+      #rotate .phone { width: 40px; height: 70px; border: 4px solid #f0c048; border-radius: 8px; margin-bottom: 18px; animation: rot 2s infinite; }
+      @keyframes rot { 0%, 30% { transform: rotate(0deg); } 60%, 100% { transform: rotate(90deg); } }
+      @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+      noscript { color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="crt"></div>
+    <div id="touch">
+      <div class="ctl dpad gp" aria-label="Steuerkreuz"></div>
+      <div class="ctl btn btn-a gp" data-action="jump" aria-label="Springen">A</div>
+      <div class="ctl btn btn-b gp" data-action="action" aria-label="Sprint/Chili">B</div>
+      <div class="ctl btn btn-p" data-action="pause" aria-label="Pause">II</div>
+      <div class="ctl btn btn-ok" data-action="jump" aria-label="OK">OK</div>
+    </div>
+    <div id="rotate"><div class="phone"></div>Bitte Gerät quer halten<br />(Querformat)</div>
+    <noscript>Bitte JavaScript aktivieren.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

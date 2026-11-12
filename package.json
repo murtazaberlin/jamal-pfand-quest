@@ -1,0 +1,29 @@
+{
+  "name": "jamal-pfand-quest",
+  "private": true,
+  "version": "1.0.0",
+  "description": "JAMAL – Pfand Quest: ein eigenes 2D-Jump'n'Run im Browser",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "validate-levels": "vitest run tests/unit/levels.test.ts",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.29.0",
+    "@playwright/test": "1.53.1",
+    "eslint": "9.29.0",
+    "globals": "16.2.0",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.34.1",
+    "vite": "6.3.5",
+    "vitest": "3.2.4"
+  }
+}

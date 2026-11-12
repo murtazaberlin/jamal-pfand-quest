@@ -460,15 +460,20 @@ function levelObjects(scene: Phaser.Scene): void {
     ellipse(ctx, 16, 9, 6, 4, OUT);
     ellipse(ctx, 16, 9, 5, 3, green);
     // Arme
-    const arm = (x: number, y: number, dir: number, h: number) => {
-      px(ctx, x, y, OUT, 8 * dir, 8);
-      const ax = dir > 0 ? x + 8 : x - 8 - 0;
-      px(ctx, Math.min(ax, ax - 1), y - h, OUT, 8, h + 8);
-      px(ctx, Math.min(ax, ax - 1) + 1, y - h + 1, green, 6, h + 6);
-      px(ctx, Math.min(x, x + 8 * dir) + 1, y + 1, green, 7, 6);
+    // Arme: waagrechter Stummel + senkrechter Ast mit runder Spitze
+    const arm = (side: number, y: number, h: number) => {
+      const ax = side > 0 ? 24 : 2; // Ast-Spalte (6 breit)
+      const sx = side > 0 ? 21 : 7; // Stummel beginnt am Stamm
+      px(ctx, Math.min(sx, ax), y - 1, OUT, Math.abs(ax - sx) + 7, 8);
+      px(ctx, ax - 1, y - h - 1, OUT, 8, h + 2);
+      ellipse(ctx, ax + 2.5, y - h, 4, 3, OUT);
+      px(ctx, Math.min(sx, ax) + 1, y, green, Math.abs(ax - sx) + 5, 6);
+      px(ctx, ax, y - h, green, 6, h + 6);
+      ellipse(ctx, ax + 2.5, y - h, 3, 2, green);
+      px(ctx, ax + 1, y - h, light, 1, h + 4);
     };
-    arm(22, 70, 1, 22);
-    arm(10, 100, -1, 18);
+    arm(1, 72, 22);
+    arm(-1, 104, 18);
     // Stacheln
     for (let y = 12; y < 158; y += 6) {
       px(ctx, 8, y, '#f8f0c0');

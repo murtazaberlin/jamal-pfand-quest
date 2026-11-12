@@ -64,7 +64,7 @@ export class TitleScene extends Phaser.Scene {
       this.menu.refresh();
     }
     ptext(this, GAME_W / 2, 196, `HIGHSCORE ${String(save.highscore).padStart(7, '0')}`, { align: 'center', color: 0xfff2a8 });
-    ptext(this, GAME_W / 2, 206, '© 2026 EIN EIGENES SPIEL – ALLE ASSETS PROZEDURAL', { align: 'center', color: 0x9a8aa8 });
+    ptext(this, GAME_W / 2, 206, '© 2026 – EIN EIGENES SPIEL', { align: 'center', color: 0x9a8aa8 });
     music.play('title');
     this.cameras.main.fadeIn(300);
     this.events.on(Phaser.Scenes.Events.WAKE, () => {

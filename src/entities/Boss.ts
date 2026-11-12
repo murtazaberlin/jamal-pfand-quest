@@ -29,6 +29,7 @@ export class Boss {
   private rainT = 0;
   private shotsLeft = 0;
   private onGround = false;
+  private flashT = 0;
 
   constructor(private scene: GameScene, public variant: number, tx: number, ty: number) {
     this.body = { x: tx * TILE - 16, y: (ty + 1) * TILE - 44, w: 32, h: 44, vx: 0, vy: 0 };
@@ -85,6 +86,7 @@ export class Boss {
     const dt = FIXED_DT;
     this.t += dt;
     this.stateT += dt;
+    this.flashT = Math.max(0, this.flashT - dt);
     const b = this.body;
     const pl = this.scene.player;
     const sm = this.speedMul;
@@ -247,8 +249,7 @@ export class Boss {
   fireHit(): void {
     if (!this.vulnerable) return;
     this.fireHits++;
-    this.sprite.setTintFill(0xffffff);
-    this.scene.time.delayedCall(60, () => this.sprite.clearTint());
+    this.flashT = 0.08;
     if (this.fireHits >= 4) {
       this.fireHits = 0;
       this.damage(1);
@@ -275,8 +276,9 @@ export class Boss {
     const blink = (this.state === 'windup' || this.state === 'jumpPrep') && Math.floor(this.t * 16) % 2 === 0;
     if (this.state === 'hurt') s.setAlpha(Math.floor(this.t * 20) % 2 ? 0.4 : 1);
     else s.setAlpha(1);
-    if (blink) s.setTint(0xff8080);
-    else if (!s.isTinted || this.fireHits === 0) s.clearTint();
+    if (this.flashT > 0) s.setTintFill(0xffffff);
+    else if (blink) s.setTint(0xff8080);
+    else s.clearTint();
     if (this.state === 'dying') s.setAngle(Math.sin(this.t * 30) * 6);
   }
 }
